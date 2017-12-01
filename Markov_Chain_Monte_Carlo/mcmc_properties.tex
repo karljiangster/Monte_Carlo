@@ -1,0 +1,101 @@
+\documentclass[a4paper,12pt]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\usepackage{amssymb} 
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{dsfont}
+
+%% Manual Operators 
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\title{MCMC Summary}
+\author{Karl Jiang}
+
+
+\begin{document}
+\maketitle 
+
+
+\section{Useful Properties of MCMC} 
+
+The MCMC sampling schemes will some the following properties of MCMC estimators. 
+
+
+\subsubsection{Invariance} 
+
+For the transition operator $\mathcal{T}$ and target density functi$\pi$, we would hope that 
+
+$$
+\lim_{k \to \infty} \mu \mathcal{T}^k = \pi
+$$ 
+
+So a natural property for the chain when constructing $q(y | x)$ would be invariance - that is $\pi\mathcal{T}(x) = \pi(x)$. This ensures stabillity of the sampling density at step k. 
+
+\subsubsection{Irreducibllity} 
+
+The chain is called irreducible if for all $X^{(k)}$ on every set $B$ that has positive value in $\pi(x)$: 
+
+$$
+P_x[X^{(m)} \in B ] > 0 \textrm{ for some } m \in \mathbb{N}
+$$
+
+Note that irreducibillity and Invariance aren't enough - we must also show that the process can reach every region in the space of $\pi$, but it does so infinitly often (?) 
+
+\subsubsection{Detailed Balance} 
+
+Often, to satisy the invariance condition, the chain will also satisfy detailed balance: 
+
+$$
+P_x[X^{(1)} \in B_1 \textrm{ and } X^{(0)} \in B_0] = 
+P_x[X^{(1)} \in B_0 \textrm{ and } X^{(0)} \in B_1] 
+$$
+
+Which then allows
+
+$$
+\begin{aligned} 
+	P_{\pi}[X^{(1)} \in B] &= 
+	P_{\pi}[X^{(1)} \in B \textrm{ and } X^{(0)} \in B ] +
+	P_{\pi}[X^{(1)} \in B \textrm{ and } X^{(0)} \notin B ] \\
+	&= 
+	P_{\pi}[X^{(1)} \in B \textrm{ and } X^{(0)} \in B ] +
+	P_{\pi}[X^{(1)} \notin B \textrm{ and } X^{(0)} \in B ] \\
+	&= 
+	P_{\pi}[X^{(1)} \in B \textrm{ and } X^{(0)} \in B ] +
+	P_{\pi}[X^{(1)} \notin B \textrm{ and } X^{(0)} \in B ] \\
+	&= 
+	P_{\pi}[X^{(0)} \in B] 
+\end{aligned} 
+$$
+
+This insures invariance of chain. 
+
+$\\$
+Another way to express the detailed balance condition is 
+$$
+p(y|x)\pi(x) = p(x|y)\pi(y) 
+$$
+And in terms of expectations: 
+$$
+\int g(x)[\mathcal{T}f](x)\pi(x)dx = \int [\mathcal{T}g](x)f(x)\pi(x)dx 
+$$
+
+By using the $B_1 = B^c = \notin B$ for the detailed balance definition at step 2.  
+
+
+\end{document}
+
+
